@@ -36,22 +36,47 @@ def draw_current_board(board, players_moves):
     return board
 
 
+def select_move(player, moves, players_moves):
+    selecting_move = True
+
+    while selecting_move:
+        move = input("Player {}, enter your move.\n".format(player))
+
+        try:
+            move = int(move)
+        except ValueError:
+            print(VALIDATION_ERROR_MESSAGE)
+            continue
+
+        if not is_valid_move(move, players_moves):
+            print(VALIDATION_ERROR_MESSAGE)
+        else:
+            moves.append(move)
+            selecting_move = False
+
+    players_moves[player] = moves
+
+    return players_moves
+
+
 def get_all_moves(players_moves):
     return list(chain.from_iterable(players_moves.values()))
 
 
-def validate_move(move, players_moves):
+def is_valid_move(move, players_moves):
     return move in SPACES_ON_BOARD and move not in get_all_moves(players_moves)
 
 
 def check_for_winner(players_moves):
     all_moves = get_all_moves(players_moves)
-    if all(move in all_moves for move in SPACES_ON_BOARD):
-        return "It's a tie!"
+
     for player, moves in players_moves.items():
         for combo in WINNING_COMBOS:
             if all(move in moves for move in combo):
                 return player + ' wins!'
+
+    if all(move in all_moves for move in SPACES_ON_BOARD):
+        return "It's a tie!"
 
 
 def main():
@@ -71,24 +96,7 @@ def main():
             current_board = "Current board: \n\n{}\n\n".format(draw_current_board(BOARD, players_moves))
             print(current_board)
 
-            selecting_move = True
-
-            while selecting_move:
-                move = input("Player {}, enter your move.\n".format(player))
-
-                try:
-                    move = int(move)
-                except ValueError:
-                    print(VALIDATION_ERROR_MESSAGE)
-                    continue
-
-                if not validate_move(move, players_moves):
-                    print(VALIDATION_ERROR_MESSAGE)
-                else:
-                    moves.append(move)
-                    selecting_move = False
-
-            # print(players_moves)
+            players_moves = select_move(player, moves, players_moves)
 
             if check_for_winner(players_moves):
                 print(check_for_winner(players_moves))
