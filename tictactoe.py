@@ -97,9 +97,10 @@ def main():
             print(current_board)
 
             players_moves = select_move(player, moves, players_moves)
+            winner = check_for_winner(players_moves)
 
-            if check_for_winner(players_moves):
-                print(check_for_winner(players_moves))
+            if winner:
+                print(winner)
                 print(draw_current_board(BOARD, players_moves))
                 playing_game = False
                 break
