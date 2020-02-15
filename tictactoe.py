@@ -33,7 +33,10 @@ def check_for_winner(players_moves):
         for combo in WINNING_COMBOS:
             if all(move in moves for move in combo):
                 return player + ' wins'
+
+
 print(check_for_winner(players_moves))
+
 board = " 1 | 2 | 3 \n ---------- \n 4 | 5 | 6 \n ---------- \n 7 | 8 | 9"
 # print(board)
 
@@ -43,6 +46,7 @@ Enter a number from 1-9 to place your move on the board in the corresponding spa
 
 {}
 """.format(board)
+
 
 def draw_current_board(board, players_moves):
     for player, moves in players_moves.items():
@@ -56,6 +60,7 @@ def draw_current_board(board, players_moves):
     return board
 
 # print(draw_current_board(board, players_moves))
+
 
 if __name__ == "__main__":
     print(game_instructions)
@@ -71,7 +76,7 @@ if __name__ == "__main__":
 
             move = input("Player {}, enter your move.\n".format(player))
             moves.append(int(move))
-            # print(players_moves)
+            print(players_moves)
             if check_for_winner(players_moves):
                 print(check_for_winner(players_moves))
                 playing_game = False
