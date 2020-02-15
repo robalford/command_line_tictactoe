@@ -30,10 +30,10 @@ class TestTicTacToe(unittest.TestCase):
         self.check_for_game_result("It's a tie!", self.tie_games)  # should strs be constants?
 
     def test_o_wins(self):
-        self.check_for_game_result("o wins", self.o_wins)
+        self.check_for_game_result("o wins!", self.o_wins)
 
     def test_x_wins(self):
-        self.check_for_game_result("x wins", self.x_wins)
+        self.check_for_game_result("x wins!", self.x_wins)
 
 
 if __name__ == '__main__':
