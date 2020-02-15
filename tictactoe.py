@@ -13,20 +13,14 @@ WINNING_COMBOS = (
     (3, 5, 7)
 )
 
-board = " 1 | 2 | 3 \n ---------- \n 4 | 5 | 6 \n ---------- \n 7 | 8 | 9"
-# print(board)
+BOARD = " 1 | 2 | 3 \n ---------- \n 4 | 5 | 6 \n ---------- \n 7 | 8 | 9"
 
 game_instructions = """Welcome to Command Line Tic Tac Toe!
 
 Enter a number from 1-9 to place your move on the board in the corresponding space:
 
 {}
-""".format(board)
-
-players_moves = {
-    'x': [],
-    'o': [],
-}
+""".format(BOARD)
 
 
 def draw_current_board(board, players_moves):
@@ -37,12 +31,11 @@ def draw_current_board(board, players_moves):
     for space in SPACES_ON_BOARD:
         if str(space) in board:
             board = board.replace(str(space), ' ')
-
     return board
 
 
 def check_for_winner(players_moves):
-    all_moves = list(chain.from_iterable(players_moves.values()))  # could use itertools chain
+    all_moves = list(chain.from_iterable(players_moves.values()))
     if all(move in all_moves for move in SPACES_ON_BOARD):
         return "It's a tie!"
     for player, moves in players_moves.items():
@@ -51,7 +44,12 @@ def check_for_winner(players_moves):
                 return player + ' wins'
 
 
-if __name__ == "__main__":
+def main():
+    players_moves = {
+        'x': [],
+        'o': [],
+    }
+
     print(game_instructions)
 
     playing_game = True
@@ -60,7 +58,7 @@ if __name__ == "__main__":
 
         for player, moves in players_moves.items():
 
-            current_board = "Current board: \n\n{}\n\n".format(draw_current_board(board, players_moves))
+            current_board = "Current board: \n\n{}\n\n".format(draw_current_board(BOARD, players_moves))
             print(current_board)
 
             move = input("Player {}, enter your move.\n".format(player))
@@ -71,3 +69,7 @@ if __name__ == "__main__":
                 print(check_for_winner(players_moves))
                 playing_game = False
                 break  # break out of for loop
+
+
+if __name__ == "__main__":
+    main()
