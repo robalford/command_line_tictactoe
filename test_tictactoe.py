@@ -1,11 +1,23 @@
 import unittest
 from unittest.mock import patch
 
-from tictactoe import get_all_moves, select_move, check_for_winner
+from tictactoe import BOARD, draw_current_board, get_all_moves, is_valid_move, select_move, \
+    check_for_winner
 
 
 class TestTicTacToe(unittest.TestCase):
     def setUp(self):
+        # for testing drawing the game board with variety of player's moves
+        self.players_moves_and_game_boards = [
+            ({'x': [], 'o': []},
+             '   |   |   \n ---------- \n   |   |   \n ---------- \n   |   |  '),
+            ({'x': [5], 'o': []},
+             '   |   |   \n ---------- \n   | x |   \n ---------- \n   |   |  '),
+            ({'x': [5, 3, 9], 'o': [1, 7]},
+             ' o |   | x \n ---------- \n   | x |   \n ---------- \n o |   | x'),
+            ({'x': [5, 3, 9, 4], 'o': [1, 7, 6, 2]},
+             ' o | o | x \n ---------- \n x | x | o \n ---------- \n o |   | x')
+        ]
         # for testing sequence of moves in a single game
         self.moves_in_game = [
             (("x", [], {'x': [], 'o': []}),  {'x': [5], 'o': []}),
@@ -34,10 +46,28 @@ class TestTicTacToe(unittest.TestCase):
             {'x': [4, 5, 3, 8, 6], 'o': [1, 2, 7, 9]},
         ]
 
+    def test_draw_current_board(self):
+        for players_moves, game_board in self.players_moves_and_game_boards:
+            expected_board = game_board
+            actual_board = draw_current_board(BOARD, players_moves)
+            self.assertEqual(expected_board, actual_board)
+
     def test_get_all_moves(self):
         expected_moves = [4, 5, 3, 8, 6, 1, 2, 7, 9]
         actual_moves = get_all_moves(self.x_wins[3])
         self.assertEqual(expected_moves, actual_moves)
+
+    def test_is_valid_move_space_taken(self):
+        players_moves = {'x': [5], 'o': []}
+        select_space_that_is_already_taken = is_valid_move(5, players_moves)
+        self.assertFalse(select_space_that_is_already_taken)
+
+    def test_is_valid_move_bad_input(self):
+        players_moves = {'x': [], 'o': []}
+        select_space_that_is_not_on_board = is_valid_move(0, players_moves)
+        self.assertFalse(select_space_that_is_not_on_board)
+        select_space_that_is_not_on_board = is_valid_move(10, players_moves)
+        self.assertFalse(select_space_that_is_not_on_board)
 
     @patch('builtins.input', side_effect=['5', '1', '6', '4', '7', '2', '3'])
     def test_select_move(self, mock_input):
