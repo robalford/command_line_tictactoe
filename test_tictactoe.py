@@ -18,7 +18,7 @@ class TestTicTacToe(unittest.TestCase):
             ({'x': [5, 3, 9, 4], 'o': [1, 7, 6, 2]},
              ' o | o | x \n ---------- \n x | x | o \n ---------- \n o |   | x')
         ]
-        # for testing sequence of moves in a single game
+        # for testing the sequence of moves in a single game
         self.moves_in_game = [
             (("x", [], {'x': [], 'o': []}),  {'x': [5], 'o': []}),
             (("o", [], {'x': [5], 'o': []}), {'x': [5], 'o': [1]}),

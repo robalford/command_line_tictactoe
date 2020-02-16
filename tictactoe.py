@@ -68,14 +68,12 @@ def is_valid_move(move, players_moves):
 
 
 def check_for_winner(players_moves):
-    all_moves = get_all_moves(players_moves)
-
     for player, moves in players_moves.items():
         for combo in WINNING_COMBOS:
             if all(move in moves for move in combo):
                 return player + ' wins!'
 
-    if all(move in all_moves for move in SPACES_ON_BOARD):
+    if all(move in get_all_moves(players_moves) for move in SPACES_ON_BOARD):
         return "It's a tie!"
 
 
